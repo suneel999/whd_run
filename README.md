@@ -34,34 +34,47 @@ python app.py
 Open http://127.0.0.1:8080  
 CRM: http://127.0.0.1:8080/admin/login
 
-## AWS deploy (same method as pulse-crm)
+## AWS deploy (its own EC2)
 
-If the angiogram CRM already uses port 80 on this EC2, either use a second instance or change the port in `docker-compose.yml` to `"8081:8080"`.
-
-1. Ubuntu EC2, open ports **22** and **80**
-2. Install Docker:
+1. Ubuntu EC2, open ports **22**, **80**, and **443**
+2. On the server:
 
 ```bash
 sudo apt update
-sudo apt install -y docker.io docker-compose-v2
-sudo usermod -aG docker $USER
+sudo apt install -y docker.io docker-compose-v2 git
+sudo git clone https://github.com/suneel999/whd_run.git /opt/whd-run
+cd /opt/whd-run
+sudo cp .env.example .env
+sudo nano .env
+sudo docker compose up -d --build
 ```
 
-3. Copy this folder to `/opt/whd-run`
-4. On the server:
+Set `PUBLIC_URL=https://event.thepulseheart.com` in `.env`.
+
+Caddy in Docker serves the domain and gets a free HTTPS certificate. EC2 security group must allow **80** and **443**.
+
+After you change files on GitHub, update the server with:
 
 ```bash
 cd /opt/whd-run
-cp .env.example .env
-nano .env
-docker compose up -d --build
+sudo git pull
+sudo docker compose up -d --build
 ```
 
-5. Public register: `http://YOUR-EC2-IP`  
-   CRM: `http://YOUR-EC2-IP/admin/login`
+## DNS: event.thepulseheart.com
 
-Optional: point `run.thepulseheart.com` A-record to the EC2 IP, then add HTTPS later.
+In Hostinger DNS for `thepulseheart.com`:
+
+| Type | Name | Value |
+|---|---|---|
+| A | `event` | the EC2 public IPv4 |
+
+Wait 5–30 minutes. Then `http://event.thepulseheart.com` should open the form.
+
+Staff CRM: `http://event.thepulseheart.com/admin/login`
+
+The website Register button uses `https://event.thepulseheart.com`. After DNS works, add HTTPS (Let's Encrypt) so that link does not show a certificate warning.
 
 ## Website note
 
-On Hostinger, `run.html` and the homepage bar link to the run. After AWS is up, open `run.html` and change `REGISTER_URL` to your EC2 IP or `https://run.thepulseheart.com`.
+Homepage bar → `run.html` → `https://event.thepulseheart.com`. Upload `run.html` to Hostinger after you change it.

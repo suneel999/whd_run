@@ -1,0 +1,3 @@
+event.thepulseheart.com {
+	reverse_proxy run:8080
+}
