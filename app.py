@@ -23,6 +23,7 @@ from flask import (
     url_for,
 )
 from PIL import Image
+from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.utils import secure_filename
 
 import db
@@ -37,8 +38,10 @@ ALLOWED_EXT = {".jpg", ".jpeg", ".png", ".webp"}
 MAX_BYTES = 5 * 1024 * 1024
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 app.secret_key = os.getenv("FLASK_SECRET", "pulse-run-dev-secret")
 app.config["MAX_CONTENT_LENGTH"] = MAX_BYTES
+app.config["PREFERRED_URL_SCHEME"] = "https"
 
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -77,28 +80,32 @@ def health():
     return {"ok": True, "service": "pulse-whd-run"}
 
 
-@app.get("/")
+@app.route("/", methods=["GET", "POST"])
 def register_page():
+    if request.method == "POST":
+        try:
+            row = db.create(
+                {
+                    "token": secrets.token_urlsafe(16),
+                    "name": request.form.get("name"),
+                    "email": request.form.get("email"),
+                    "phone": request.form.get("phone"),
+                    "tshirt": request.form.get("tshirt"),
+                    "distance": request.form.get("distance"),
+                }
+            )
+        except ValueError as exc:
+            flash(str(exc))
+            return redirect("/")
+        return redirect(f"/pay/{row['token']}")
     return render_template("register.html")
 
 
-@app.post("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register_submit():
-    try:
-        row = db.create(
-            {
-                "token": secrets.token_urlsafe(16),
-                "name": request.form.get("name"),
-                "email": request.form.get("email"),
-                "phone": request.form.get("phone"),
-                "tshirt": request.form.get("tshirt"),
-                "distance": request.form.get("distance"),
-            }
-        )
-    except ValueError as exc:
-        flash(str(exc))
-        return redirect(url_for("register_page"))
-    return redirect(url_for("pay_page", token=row["token"]))
+    if request.method == "GET":
+        return redirect("/")
+    return register_page()
 
 
 @app.get("/pay/<token>")

@@ -1,3 +1,7 @@
 event.thepulseheart.com {
 	reverse_proxy run:8080
 }
+
+http:// {
+	redir https://event.thepulseheart.com{uri} permanent
+}
