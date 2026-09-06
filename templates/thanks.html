@@ -1,0 +1,14 @@
+{% extends "public_base.html" %}
+{% block title %}Screenshot received | Pulse Heart Run{% endblock %}
+{% block content %}
+<section class="hero-card">
+  <p class="eyebrow">Registration received</p>
+  <h1>Thank you, {{ reg.name }}</h1>
+  <p class="lead">We have your details and payment screenshot. After the hospital confirms the ₹{{ fee }} payment, you will get an email with the WhatsApp group to join.</p>
+  <p class="muted">{{ reg.distance }} · T-shirt {{ reg.tshirt }} · {{ reg.email }}</p>
+</section>
+<div class="card">
+  <p>Keep 29 September morning free: <strong>6:00 am – 8:00 am</strong> at Pulse Heart, Miyapur.</p>
+  <p class="muted">Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a> · <a href="mailto:{{ query_email }}">{{ query_email }}</a></p>
+</div>
+{% endblock %}

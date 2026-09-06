@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}World Heart Day 5K/10K Run | Pulse Heart{% endblock %}</title>
+  <meta name="description" content="Register for the Pulse Heart World Heart Day 5K/10K run on 29 September 2026, 6–8 am, Miyapur, Hyderabad. Entry ₹250.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="public">
+  <header class="pub-head">
+    <a class="logo-link" href="{{ url_for('register_page') }}">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Pulse Heart Super Speciality Hospital" width="180" height="72">
+    </a>
+    <div class="pub-meta">
+      <strong>World Heart Day Run</strong>
+      <span>29 Sept · 6–8 am · Miyapur</span>
+    </div>
+  </header>
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}<p class="flash">{{ message }}</p>{% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="pub-foot">
+    Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a> · <a href="mailto:{{ query_email }}">{{ query_email }}</a>
+  </footer>
+</body>
+</html>

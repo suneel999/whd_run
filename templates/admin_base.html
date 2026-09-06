@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>{% block title %}Pulse Run CRM{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <div class="crm-brand">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Pulse Heart" width="120" height="48">
+      <strong>Run CRM</strong>
+    </div>
+    {% if session.admin %}
+    <nav>
+      <a href="{{ url_for('admin_home') }}">Registrations</a>
+      <a href="{{ url_for('admin_logout') }}">Logout</a>
+    </nav>
+    {% endif %}
+  </header>
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}<p class="flash">{{ message }}</p>{% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

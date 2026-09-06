@@ -1,0 +1,32 @@
+{% extends "public_base.html" %}
+{% block title %}Pay ₹{{ fee }} | Pulse Heart Run{% endblock %}
+{% block content %}
+<section class="hero-card">
+  <p class="eyebrow">Step 2 of 2 · {{ reg.name }}</p>
+  <h1>Scan and pay ₹{{ fee }}</h1>
+  <p class="lead">Use GPay, PhonePe, or any UPI app. Then upload the payment screenshot below.</p>
+</section>
+<div class="card qr-card">
+  {% if has_qr %}
+  <img src="{{ url_for('payment_qr') }}" alt="UPI QR code to pay rupees {{ fee }}" width="260" height="260">
+  {% else %}
+  <p class="warn">Payment QR is not configured yet. Staff: add UPI_ID in .env or drop static/qr.png.</p>
+  {% endif %}
+  <p class="amount">₹{{ fee }}</p>
+  <p class="muted">{{ reg.distance }} · T-shirt {{ reg.tshirt }}</p>
+</div>
+<div class="card">
+  <h2>Upload payment screenshot</h2>
+  <form method="post" action="{{ url_for('pay_upload', token=reg.token) }}" enctype="multipart/form-data" class="stack">
+    <div>
+      <label for="screenshot">Screenshot of the ₹{{ fee }} payment</label>
+      <input id="screenshot" name="screenshot" type="file" accept="image/jpeg,image/png,image/webp" required>
+    </div>
+    <button type="submit">Submit screenshot</button>
+  </form>
+  <p class="muted">Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a> · <a href="mailto:{{ query_email }}">{{ query_email }}</a></p>
+  {% if reg.screenshot %}
+  <p class="muted">A screenshot is already on file. Uploading again will replace it.</p>
+  {% endif %}
+</div>
+{% endblock %}

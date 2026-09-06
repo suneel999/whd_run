@@ -1,0 +1,43 @@
+{% extends "admin_base.html" %}
+{% block title %}{{ reg.name }} · Run CRM{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('admin_home') }}">← All registrations</a></p>
+<div class="card">
+  <h1>{{ reg.name }}</h1>
+  <p>
+    <a href="tel:{{ reg.phone_norm }}">{{ reg.phone }}</a> ·
+    <a href="mailto:{{ reg.email }}">{{ reg.email }}</a>
+  </p>
+  <p>{{ reg.distance }} · T-shirt {{ reg.tshirt }} · Paid ₹{{ fee }}</p>
+  <p class="muted">Registered {{ format_when(reg.created_at) }} · Status: <strong class="st-{{ reg.status }}">{{ reg.status|title }}</strong></p>
+  {% if reg.email_sent_at %}
+  <p class="muted">Confirmation email sent {{ format_when(reg.email_sent_at) }}</p>
+  {% endif %}
+  <div class="actions">
+    <form method="post" action="{{ url_for('admin_status', reg_id=reg.id) }}">
+      <input type="hidden" name="status" value="pending">
+      <button class="btn ghost" type="submit">Pending</button>
+    </form>
+    <form method="post" action="{{ url_for('admin_status', reg_id=reg.id) }}">
+      <input type="hidden" name="status" value="success">
+      <button type="submit">Success — send WhatsApp email</button>
+    </form>
+    {% if reg.status == 'success' %}
+    <form method="post" action="{{ url_for('admin_resend', reg_id=reg.id) }}">
+      <button class="btn ghost" type="submit">Resend email</button>
+    </form>
+    {% endif %}
+    <a class="btn ghost" href="https://wa.me/{{ reg.phone_norm }}" target="_blank" rel="noopener">WhatsApp runner</a>
+  </div>
+</div>
+<div class="card">
+  <h2>Payment screenshot</h2>
+  {% if reg.screenshot %}
+  <a href="{{ url_for('admin_shot', reg_id=reg.id) }}" target="_blank" rel="noopener">
+    <img class="shot" src="{{ url_for('admin_shot', reg_id=reg.id) }}" alt="Payment screenshot for {{ reg.name }}">
+  </a>
+  {% else %}
+  <p class="muted">No screenshot uploaded yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
