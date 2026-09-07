@@ -1,6 +1,6 @@
 # Pulse Heart World Heart Day 5K/10K run
 
-Separate app for the 29 September 2026 run (5:00–8:00 am). Please come between 5:00 am and 8:00 am.
+Separate app for the 29 September 2026 run. Please come by 5:00 am.
 
 - Public form: name, email, phone, 5K/10K, T-shirt size
 - Then UPI QR for **₹250** and screenshot upload

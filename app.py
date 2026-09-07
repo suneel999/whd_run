@@ -65,7 +65,7 @@ def inject_event():
     return {
         "fee": env("FEE", "250"),
         "event_date": "29 September 2026",
-        "event_time": "5:00 am – 8:00 am",
+        "event_time": "Please come by 5:00 am",
         "upi_id": env("UPI_ID", "drkranthikumarchintala-5@okhdfcbank"),
         "format_when": db.format_when,
         "TSHIRTS": db.TSHIRTS,
