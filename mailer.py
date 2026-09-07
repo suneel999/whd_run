@@ -41,7 +41,7 @@ def send_success_email(reg: dict) -> None:
         f"Distance: {reg.get('distance')}\n"
         f"T-shirt: {reg.get('tshirt')}\n"
         "Date: Tuesday, 29 September 2026\n"
-        "Time: 6:00 am – 8:00 am\n"
+        "Time: 5:00 am – 8:00 am. Please come between 5:00 am and 8:00 am.\n"
         "Venue: Pulse Heart Super Speciality Hospital, Miyapur, Hyderabad\n\n"
         "Join the official WhatsApp group for reporting time, bib details, and updates:\n"
         f"{group}\n\n"
@@ -57,7 +57,7 @@ def send_success_email(reg: dict) -> None:
         Distance: <strong>{reg.get('distance')}</strong><br>
         T-shirt: <strong>{reg.get('tshirt')}</strong><br>
         Date: <strong>Tuesday, 29 September 2026</strong><br>
-        Time: <strong>6:00 am – 8:00 am</strong><br>
+        Time: <strong>5:00 am – 8:00 am</strong> — please come between 5:00 am and 8:00 am<br>
         Venue: Pulse Heart Super Speciality Hospital, Miyapur, Hyderabad
       </p>
       <p><a href="{group}" style="display:inline-block;background:#25D366;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:700">Join the WhatsApp group</a></p>

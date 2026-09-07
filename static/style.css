@@ -96,8 +96,18 @@ h2 { color: var(--navy); margin: 0 0 12px; font-size: 20px; }
 .stat b { display: block; font-size: 28px; color: var(--navy); }
 .stat span { color: #666; font-size: 13px; }
 .card { padding: 18px; margin-bottom: 16px; }
+.hero-photo { margin: 0 0 18px; }
+.hero-photo img {
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
 .qr-card { text-align: center; }
-.qr-card img { width: 260px; height: 260px; object-fit: contain; background: #fff; }
+.qr-card img { width: 280px; max-width: 100%; height: auto; object-fit: contain; background: #fff; }
+.upi { font-size: 14px; word-break: break-all; margin: 8px 0 0; color: var(--navy); font-weight: 600; }
 .amount { font-size: 36px; font-weight: 700; color: var(--red); margin: 8px 0 0; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
