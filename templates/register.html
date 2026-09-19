@@ -4,6 +4,7 @@
   <p class="eyebrow">World Heart Day · 29 September 2026</p>
   <h1>5 km run at Pulse Heart</h1>
   <p class="lead">Please come by <strong>5:00 am</strong> on 29 September at Pulse Heart Super Speciality Hospital, Miyapur. Entry is ₹{{ fee }}. Fill your details, pay by UPI, and upload the screenshot.</p>
+  <p class="deadline-note">Last date for registration: <strong>23 September 2026</strong></p>
 </section>
 <p class="hero-photo">
   <img src="{{ url_for('static', filename='sample2.png') }}" alt="Pulse Heart World Heart Day 5 km run poster" width="640" height="900">
@@ -32,6 +33,6 @@
     </div>
     <button type="submit">Continue to pay ₹{{ fee }}</button>
   </form>
-  <p class="muted">Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a> · <a href="mailto:{{ query_email }}">{{ query_email }}</a></p>
+  <p class="muted">Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a></p>
 </div>
 {% endblock %}

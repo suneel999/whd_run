@@ -22,7 +22,7 @@
     </div>
     <button type="submit">Submit screenshot</button>
   </form>
-  <p class="muted">Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a> · <a href="mailto:{{ query_email }}">{{ query_email }}</a></p>
+  <p class="muted">Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a></p>
   {% if reg.screenshot %}
   <p class="muted">A screenshot is already on file. Uploading again will replace it.</p>
   {% endif %}

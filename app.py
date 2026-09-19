@@ -70,9 +70,8 @@ def inject_event():
         "format_when": db.format_when,
         "TSHIRTS": db.TSHIRTS,
         "DISTANCES": db.DISTANCES,
-        "query_name": "Dr. Kranthi Kumar",
-        "query_phone": "9949996644",
-        "query_email": "kranthikumar@thepulseheart.com",
+        "query_name": "MV Krishna Mohan",
+        "query_phone": "9581277277",
     }
 
 

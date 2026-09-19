@@ -16,7 +16,8 @@
       <strong>World Heart Day 5 km Run</strong>
       <span>29 Sept · be there by 5 am · Miyapur</span>
     </div>
-  </header>
+    </header>
+  <div class="deadline-banner">Last date for registration: <strong>23 September 2026</strong></div>
   <main>
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -26,7 +27,7 @@
     {% block content %}{% endblock %}
   </main>
   <footer class="pub-foot">
-    Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a> · <a href="mailto:{{ query_email }}">{{ query_email }}</a>
+    Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a>
   </footer>
 </body>
 </html>

@@ -29,12 +29,10 @@ def send_success_email(reg: dict) -> None:
     name = reg.get("name") or "Runner"
     msg = EmailMessage()
     msg["Subject"] = "You're in — Pulse Heart World Heart Day Run, 29 September"
-    query_name = env("QUERY_NAME", "Dr. Kranthi Kumar")
-    query_phone = env("QUERY_PHONE", "9949996644")
-    query_email = env("QUERY_EMAIL", "kranthikumar@thepulseheart.com")
+    query_name = env("QUERY_NAME", "MV Krishna Mohan")
+    query_phone = env("QUERY_PHONE", "9581277277")
     msg["From"] = f"{from_name} <{from_email}>"
     msg["To"] = to_addr
-    msg["Reply-To"] = f"{query_name} <{query_email}>"
     text = (
         f"Dear {name},\n\n"
         "Your payment for the Pulse Heart World Heart Day 5 km run is confirmed.\n\n"
@@ -47,7 +45,7 @@ def send_success_email(reg: dict) -> None:
         f"{group}\n\n"
         "See you on 29 September.\n"
         "Pulse Heart Super Speciality Hospital\n"
-        f"Queries: {query_name} · +91 {query_phone} · {query_email}\n"
+        f"Queries: {query_name} · +91 {query_phone}\n"
     )
     html = f"""
     <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;color:#222">
@@ -62,7 +60,7 @@ def send_success_email(reg: dict) -> None:
       </p>
       <p><a href="{group}" style="display:inline-block;background:#25D366;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:700">Join the WhatsApp group</a></p>
       <p style="font-size:13px;color:#555">If the button does not open, copy this link:<br>{group}</p>
-      <p>See you on 29 September.<br>Pulse Heart Super Speciality Hospital<br>Queries: {query_name} · +91 {query_phone} · <a href="mailto:{query_email}">{query_email}</a></p>
+      <p>See you on 29 September.<br>Pulse Heart Super Speciality Hospital<br>Queries: {query_name} · +91 {query_phone}</p>
     </div>
     """
     msg.set_content(text)
