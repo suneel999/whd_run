@@ -92,7 +92,7 @@ def register_page():
                     "email": request.form.get("email"),
                     "phone": request.form.get("phone"),
                     "tshirt": request.form.get("tshirt"),
-                    "distance": request.form.get("distance"),
+                    "distance": "5K",
                 }
             )
         except ValueError as exc:

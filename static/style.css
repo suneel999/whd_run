@@ -100,8 +100,8 @@ h2 { color: var(--navy); margin: 0 0 12px; font-size: 20px; }
 .hero-photo img {
   width: 100%;
   height: auto;
-  max-height: 280px;
-  object-fit: cover;
+  max-height: 720px;
+  object-fit: contain;
   border-radius: 10px;
   display: block;
 }

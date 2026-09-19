@@ -37,7 +37,7 @@ def send_success_email(reg: dict) -> None:
     msg["Reply-To"] = f"{query_name} <{query_email}>"
     text = (
         f"Dear {name},\n\n"
-        "Your payment for the Pulse Heart World Heart Day 5K/10K run is confirmed.\n\n"
+        "Your payment for the Pulse Heart World Heart Day 5 km run is confirmed.\n\n"
         f"Distance: {reg.get('distance')}\n"
         f"T-shirt: {reg.get('tshirt')}\n"
         "Date: Tuesday, 29 September 2026\n"
@@ -52,7 +52,7 @@ def send_success_email(reg: dict) -> None:
     html = f"""
     <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;color:#222">
       <p>Dear {name},</p>
-      <p>Your payment for the <strong>Pulse Heart World Heart Day 5K/10K run</strong> is confirmed.</p>
+      <p>Your payment for the <strong>Pulse Heart World Heart Day 5 km run</strong> is confirmed.</p>
       <p>
         Distance: <strong>{reg.get('distance')}</strong><br>
         T-shirt: <strong>{reg.get('tshirt')}</strong><br>

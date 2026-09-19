@@ -2,11 +2,11 @@
 {% block content %}
 <section class="hero-card">
   <p class="eyebrow">World Heart Day · 29 September 2026</p>
-  <h1>5K / 10K run at Pulse Heart</h1>
+  <h1>5 km run at Pulse Heart</h1>
   <p class="lead">Please come by <strong>5:00 am</strong> on 29 September at Pulse Heart Super Speciality Hospital, Miyapur. Entry is ₹{{ fee }}. Fill your details, pay by UPI, and upload the screenshot.</p>
 </section>
 <p class="hero-photo">
-  <img src="{{ url_for('static', filename='sample.jpeg') }}" alt="Pulse Heart World Heart Day 5K and 10K run" width="640" height="360">
+  <img src="{{ url_for('static', filename='sample2.png') }}" alt="Pulse Heart World Heart Day 5 km run poster" width="640" height="900">
 </p>
 <div class="card">
   <h2>Register</h2>
@@ -23,21 +23,12 @@
       <label for="phone">Mobile number</label>
       <input id="phone" name="phone" type="tel" required maxlength="15" autocomplete="tel" inputmode="numeric" placeholder="10-digit number">
     </div>
-    <div class="two">
-      <div>
-        <label for="distance">Distance</label>
-        <select id="distance" name="distance" required>
-          <option value="">Choose</option>
-          {% for item in DISTANCES %}<option value="{{ item }}">{{ item }}</option>{% endfor %}
-        </select>
-      </div>
-      <div>
-        <label for="tshirt">T-shirt size (XS to 3XL)</label>
-        <select id="tshirt" name="tshirt" required>
-          <option value="">Choose</option>
-          {% for item in TSHIRTS %}<option value="{{ item }}">{{ item }}</option>{% endfor %}
-        </select>
-      </div>
+    <div>
+      <label for="tshirt">T-shirt size (XS to 3XL)</label>
+      <select id="tshirt" name="tshirt" required>
+        <option value="">Choose</option>
+        {% for item in TSHIRTS %}<option value="{{ item }}">{{ item }}</option>{% endfor %}
+      </select>
     </div>
     <button type="submit">Continue to pay ₹{{ fee }}</button>
   </form>

@@ -13,7 +13,7 @@ IST = ZoneInfo("Asia/Kolkata")
 
 STATUSES = ("pending", "success")
 TSHIRTS = ("XS", "S", "M", "L", "XL", "XXL", "3XL")
-DISTANCES = ("5K", "10K")
+DISTANCES = ("5K",)
 
 
 def now() -> str:
@@ -70,13 +70,13 @@ def create(data: dict) -> dict:
     phone = clean(data.get("phone"), 30)
     phone_norm = norm_phone(phone)
     tshirt = clean(data.get("tshirt"), 8).upper()
-    distance = clean(data.get("distance"), 8).upper()
+    distance = clean(data.get("distance") or "5K", 8).upper()
+    if distance not in DISTANCES:
+        distance = "5K"
     if not name or "@" not in email or len(phone_norm) < 12:
         raise ValueError("Name, a valid email, and a 10-digit mobile number are required.")
     if tshirt not in TSHIRTS:
         raise ValueError("Choose a T-shirt size.")
-    if distance not in DISTANCES:
-        raise ValueError("Choose 5K or 10K.")
     stamp = now()
     conn = connect()
     conn.execute(
