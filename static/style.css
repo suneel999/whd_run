@@ -166,6 +166,34 @@ button, .btn {
 .warn, .flash { color: var(--red); }
 .st-pending { color: #b45309; font-weight: bold; }
 .st-success { color: #166534; font-weight: bold; }
+.confirm-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #f4f8f9;
+  border: 1px solid #d7e4e7;
+  padding: 12px;
+  color: #222;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.confirm-box input {
+  width: auto;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.wa-card { text-align: center; }
+.wa-join {
+  display: inline-block;
+  background: #25D366;
+  color: #fff !important;
+  font-weight: 700;
+  text-decoration: none !important;
+  padding: 14px 22px;
+  border-radius: 8px;
+  margin-top: 8px;
+  font-size: 18px;
+}
 @media (max-width: 800px) {
   .stats { grid-template-columns: 1fr 1fr; }
   .two { grid-template-columns: 1fr; }

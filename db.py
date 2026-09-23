@@ -73,8 +73,8 @@ def create(data: dict) -> dict:
     distance = clean(data.get("distance") or "5K", 8).upper()
     if distance not in DISTANCES:
         distance = "5K"
-    if not name or "@" not in email or len(phone_norm) < 12:
-        raise ValueError("Name, a valid email, and a 10-digit mobile number are required.")
+    if not name or len(phone_norm) < 12:
+        raise ValueError("Name and a 10-digit mobile number are required.")
     if tshirt not in TSHIRTS:
         raise ValueError("Choose a T-shirt size.")
     stamp = now()
@@ -84,7 +84,7 @@ def create(data: dict) -> dict:
         INSERT INTO registrations (
             token, name, email, phone, phone_norm, tshirt, distance,
             status, created_at, updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, 'success', ?, ?)
         """,
         (data["token"], name, email, phone, phone_norm, tshirt, distance, stamp, stamp),
     )
@@ -183,6 +183,25 @@ def stats() -> dict:
     }
     conn.close()
     return result
+
+
+def purge_pending() -> int:
+    """Remove unpaid/pending rows only. Confirmed success rows are left untouched."""
+    conn = connect()
+    rows = conn.execute(
+        "SELECT id, screenshot FROM registrations WHERE status = 'pending'"
+    ).fetchall()
+    upload_dir = ROOT / "uploads"
+    for row in rows:
+        filename = (row["screenshot"] or "").strip()
+        if filename:
+            path = upload_dir / filename
+            if path.is_file():
+                path.unlink()
+    conn.execute("DELETE FROM registrations WHERE status = 'pending'")
+    conn.commit()
+    conn.close()
+    return len(rows)
 
 
 def format_when(value: str) -> str:

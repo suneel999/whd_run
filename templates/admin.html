@@ -18,7 +18,7 @@
     </div>
     <div>
       <label>Search</label>
-      <input name="q" value="{{ q }}" placeholder="Name, phone, or email">
+      <input name="q" value="{{ q }}" placeholder="Name or phone">
     </div>
     <button type="submit">Filter</button>
   </form>
@@ -45,7 +45,7 @@
         <td>
           <a href="{{ url_for('admin_detail', reg_id=reg.id) }}"><strong>{{ reg.name }}</strong></a><br>
           <a href="tel:{{ reg.phone_norm }}">{{ reg.phone }}</a><br>
-          <span class="muted">{{ reg.email }}</span>
+          {% if reg.email %}<span class="muted">{{ reg.email }}</span>{% endif %}
         </td>
         <td>{{ reg.distance }}<br><span class="muted">{{ reg.tshirt }}</span></td>
         <td>

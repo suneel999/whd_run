@@ -1,14 +1,18 @@
 {% extends "public_base.html" %}
-{% block title %}Screenshot received | Pulse Heart Run{% endblock %}
+{% block title %}You are registered | Pulse Heart Run{% endblock %}
 {% block content %}
 <section class="hero-card">
-  <p class="eyebrow">Registration received</p>
+  <p class="eyebrow">Registration complete</p>
   <h1>Thank you, {{ reg.name }}</h1>
-  <p class="lead">We have your details and payment screenshot. After the hospital confirms the ₹{{ fee }} payment, you will get an email with the WhatsApp group to join.</p>
-  <p class="muted">{{ reg.distance }} · T-shirt {{ reg.tshirt }} · {{ reg.email }}</p>
+  <p class="lead">You are registered for the free 5 km run. Please come by <strong>5:00 am</strong> on 29 September at Pulse Heart, Miyapur.</p>
+  <p class="muted">5 km · T-shirt {{ reg.tshirt }}</p>
 </section>
+<div class="card wa-card">
+  <h2>Join the WhatsApp group</h2>
+  <p>You must join this group to receive reporting time, bib details, and other updates.</p>
+  <a class="wa-join" href="{{ whatsapp_group }}" target="_blank" rel="noopener">Join WhatsApp group</a>
+</div>
 <div class="card">
-  <p>Please come by <strong>5:00 am</strong> on 29 September at Pulse Heart, Miyapur.</p>
-  <p class="muted">Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a></p>
+  <p class="muted">Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a><br>Dr. Joseph · <a href="tel:{{ query_phone_2 }}">+91 {{ query_phone_2 }}</a></p>
 </div>
 {% endblock %}

@@ -3,8 +3,8 @@
 <section class="hero-card">
   <p class="eyebrow">World Heart Day · 29 September 2026</p>
   <h1>5 km run at Pulse Heart</h1>
-  <p class="lead">Please come by <strong>5:00 am</strong> on 29 September at Pulse Heart Super Speciality Hospital, Miyapur. Entry is ₹{{ fee }}. Fill your details, pay by UPI, and upload the screenshot.</p>
-  <p class="deadline-note">Last date for registration: <strong>23 September 2026</strong></p>
+  <p class="lead">Registration is <strong>free</strong>. Please come by <strong>5:00 am</strong> on 29 September at Pulse Heart Super Speciality Hospital, Miyapur.</p>
+  <p class="deadline-note">Last date for registration: <strong>24 September 2026</strong></p>
 </section>
 <p class="hero-photo">
   <img src="{{ url_for('static', filename='sample2.png') }}" alt="Pulse Heart World Heart Day 5 km run poster" width="640" height="900">
@@ -17,10 +17,6 @@
       <input id="name" name="name" required maxlength="120" autocomplete="name">
     </div>
     <div>
-      <label for="email">Email</label>
-      <input id="email" name="email" type="email" required maxlength="160" autocomplete="email">
-    </div>
-    <div>
       <label for="phone">Mobile number</label>
       <input id="phone" name="phone" type="tel" required maxlength="15" autocomplete="tel" inputmode="numeric" placeholder="10-digit number">
     </div>
@@ -31,8 +27,12 @@
         {% for item in TSHIRTS %}<option value="{{ item }}">{{ item }}</option>{% endfor %}
       </select>
     </div>
-    <button type="submit">Continue to pay ₹{{ fee }}</button>
+    <label class="confirm-box">
+      <input type="checkbox" name="confirm" value="yes" required>
+      <span>I confirm that I will take part in the Pulse Heart World Heart Day 5 km run on 29 September 2026, and that I will report by 5:00 am. I understand this is a free registration.</span>
+    </label>
+    <button type="submit">Complete free registration</button>
   </form>
-  <p class="muted">Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a></p>
+  <p class="muted">Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a><br>Dr. Joseph · <a href="tel:{{ query_phone_2 }}">+91 {{ query_phone_2 }}</a></p>
 </div>
 {% endblock %}

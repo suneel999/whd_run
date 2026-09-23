@@ -63,15 +63,17 @@ def login_required(view):
 @app.context_processor
 def inject_event():
     return {
-        "fee": env("FEE", "250"),
+        "fee": "Free",
         "event_date": "29 September 2026",
         "event_time": "Please come by 5:00 am",
-        "upi_id": env("UPI_ID", "drkranthikumarchintala-5@okhdfcbank"),
+        "whatsapp_group": "https://chat.whatsapp.com/I97m1E7XMMQ9frPlHxInpm",
         "format_when": db.format_when,
         "TSHIRTS": db.TSHIRTS,
         "DISTANCES": db.DISTANCES,
         "query_name": "MV Krishna Mohan",
         "query_phone": "9581277277",
+        "query_name_2": "Dr. Joseph",
+        "query_phone_2": "9640606060",
     }
 
 
@@ -83,12 +85,15 @@ def health():
 @app.route("/", methods=["GET", "POST"])
 def register_page():
     if request.method == "POST":
+        if request.form.get("confirm") != "yes":
+            flash("Please confirm that you will take part before submitting.")
+            return redirect("/")
         try:
             row = db.create(
                 {
                     "token": secrets.token_urlsafe(16),
                     "name": request.form.get("name"),
-                    "email": request.form.get("email"),
+                    "email": "",
                     "phone": request.form.get("phone"),
                     "tshirt": request.form.get("tshirt"),
                     "distance": "5K",
@@ -97,7 +102,7 @@ def register_page():
         except ValueError as exc:
             flash(str(exc))
             return redirect("/")
-        return redirect(f"/pay/{row['token']}")
+        return redirect(f"/thanks/{row['token']}")
     return render_template("register.html")
 
 
@@ -110,10 +115,7 @@ def register_submit():
 
 @app.get("/pay/<token>")
 def pay_page(token: str):
-    row = db.get_by_token(token)
-    if not row:
-        abort(404)
-    return render_template("pay.html", reg=row, has_qr=bool(env("UPI_ID") or STATIC_QR.exists()))
+    return redirect(f"/thanks/{token}")
 
 
 @app.post("/pay/<token>")
@@ -223,15 +225,7 @@ def admin_status(reg_id: int):
     except ValueError as exc:
         flash(str(exc))
         return redirect(url_for("admin_detail", reg_id=reg_id))
-    if status == "success":
-        try:
-            mailer.send_success_email(row)
-            db.mark_email_sent(reg_id)
-            flash("Marked success. Confirmation email sent with the WhatsApp group.")
-        except Exception as exc:
-            flash(f"Marked success, but email failed: {exc}")
-    else:
-        flash("Marked pending.")
+    flash("Status updated.")
     return redirect(url_for("admin_detail", reg_id=reg_id))
 
 
@@ -259,6 +253,8 @@ def admin_shot(reg_id: int):
     return send_from_directory(UPLOAD_DIR, row["screenshot"])
 
 
+db.connect()
+db.purge_pending()
+
 if __name__ == "__main__":
-    db.connect()
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", "8080")), debug=True)

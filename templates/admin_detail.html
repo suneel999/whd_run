@@ -5,10 +5,10 @@
 <div class="card">
   <h1>{{ reg.name }}</h1>
   <p>
-    <a href="tel:{{ reg.phone_norm }}">{{ reg.phone }}</a> ·
-    <a href="mailto:{{ reg.email }}">{{ reg.email }}</a>
+    <a href="tel:{{ reg.phone_norm }}">{{ reg.phone }}</a>
+    {% if reg.email %} · <a href="mailto:{{ reg.email }}">{{ reg.email }}</a>{% endif %}
   </p>
-  <p>{{ reg.distance }} · T-shirt {{ reg.tshirt }} · Paid ₹{{ fee }}</p>
+  <p>{{ reg.distance }} · T-shirt {{ reg.tshirt }} · Free registration</p>
   <p class="muted">Registered {{ format_when(reg.created_at) }} · Status: <strong class="st-{{ reg.status }}">{{ reg.status|title }}</strong></p>
   {% if reg.email_sent_at %}
   <p class="muted">Confirmation email sent {{ format_when(reg.email_sent_at) }}</p>
@@ -20,7 +20,7 @@
     </form>
     <form method="post" action="{{ url_for('admin_status', reg_id=reg.id) }}">
       <input type="hidden" name="status" value="success">
-      <button type="submit">Success — send WhatsApp email</button>
+      <button type="submit">Success</button>
     </form>
     {% if reg.status == 'success' %}
     <form method="post" action="{{ url_for('admin_resend', reg_id=reg.id) }}">
