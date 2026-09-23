@@ -29,8 +29,8 @@ def send_success_email(reg: dict) -> None:
     name = reg.get("name") or "Runner"
     msg = EmailMessage()
     msg["Subject"] = "You're in — Pulse Heart World Heart Day Run, 29 September"
-    query_name = env("QUERY_NAME", "MV Krishna Mohan")
-    query_phone = env("QUERY_PHONE", "9581277277")
+    query_name = "MV Krishna Mohan"
+    query_phone = "9581277277"
     msg["From"] = f"{from_name} <{from_email}>"
     msg["To"] = to_addr
     text = (
