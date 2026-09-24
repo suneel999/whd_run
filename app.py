@@ -86,26 +86,7 @@ def health():
 
 @app.route("/", methods=["GET", "POST"])
 def register_page():
-    if request.method == "POST":
-        if request.form.get("confirm") != "yes":
-            flash("Please confirm that you will take part before submitting.")
-            return redirect("/")
-        try:
-            row = db.create(
-                {
-                    "token": secrets.token_urlsafe(16),
-                    "name": request.form.get("name"),
-                    "email": "",
-                    "phone": request.form.get("phone"),
-                    "tshirt": request.form.get("tshirt"),
-                    "distance": "5K",
-                }
-            )
-        except ValueError as exc:
-            flash(str(exc))
-            return redirect("/")
-        return redirect(f"/thanks/{row['token']}")
-    return render_template("register.html")
+    return render_template("closed.html")
 
 
 @app.route("/register", methods=["GET", "POST"])

@@ -1,0 +1,17 @@
+{% extends "public_base.html" %}
+{% block title %}Registration closed | Pulse Heart Run{% endblock %}
+{% block content %}
+<section class="hero-card">
+  <p class="eyebrow">World Heart Day · 29 September 2026</p>
+  <h1>Registration is closed</h1>
+  <p class="lead">Online registration for the Pulse Heart 5 km run has stopped. Please come by <strong>5:00 am</strong> on 29 September if you have already registered.</p>
+</section>
+<p class="hero-photo">
+  <img src="{{ url_for('static', filename='sample2.png') }}" alt="Pulse Heart World Heart Day 5 km run poster" width="640" height="900">
+</p>
+<div class="card">
+  <p>If you already registered, join the WhatsApp group for reporting time and updates.</p>
+  <p><a class="btn" href="{{ whatsapp_group }}" target="_blank" rel="noopener">WhatsApp group</a></p>
+  <p class="muted">Queries: {{ query_name }} · <a href="tel:{{ query_phone }}">+91 {{ query_phone }}</a><br>Dr. Joseph · <a href="tel:{{ query_phone_2 }}">+91 {{ query_phone_2 }}</a></p>
+</div>
+{% endblock %}
