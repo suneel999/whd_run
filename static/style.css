@@ -118,6 +118,25 @@ h2 { color: var(--navy); margin: 0 0 12px; font-size: 20px; }
 .stat { padding: 14px 16px; }
 .stat b { display: block; font-size: 28px; color: var(--navy); }
 .stat span { color: #666; font-size: 13px; }
+.order-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.order-head h2 { margin: 0; }
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+.size-total { border: 2px solid var(--navy); }
+@media (max-width: 800px) {
+  .size-grid { grid-template-columns: 1fr 1fr; }
+}
 .card { padding: 18px; margin-bottom: 16px; }
 .hero-photo { margin: 0 0 18px; }
 .hero-photo img {

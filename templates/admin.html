@@ -3,8 +3,27 @@
 <div class="stats">
   <div class="stat"><b>{{ stats.today }}</b><span>Today</span></div>
   <div class="stat"><b>{{ stats.pending }}</b><span>Pending</span></div>
-  <div class="stat"><b>{{ stats.success }}</b><span>Success</span></div>
+  <div class="stat"><b>{{ stats.success }}</b><span>Confirmed</span></div>
   <div class="stat"><b>{{ stats.total }}</b><span>Total</span></div>
+</div>
+<div class="card">
+  <div class="order-head">
+    <h2>T-shirt order</h2>
+    <a class="btn" href="{{ url_for('admin_export') }}">Download Excel</a>
+  </div>
+  <p class="muted">Confirmed registrations only. Use these quantities to place the T-shirt order.</p>
+  <div class="size-grid">
+    {% for item in sizes %}
+    <div class="stat size-stat">
+      <b>{{ item.qty }}</b>
+      <span>{{ item.size }}</span>
+    </div>
+    {% endfor %}
+    <div class="stat size-stat size-total">
+      <b>{{ size_total }}</b>
+      <span>Total shirts</span>
+    </div>
+  </div>
 </div>
 <div class="card">
   <form class="filters" method="get">

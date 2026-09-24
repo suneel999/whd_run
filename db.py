@@ -170,6 +170,47 @@ def list_regs(status: str = "", q: str = "") -> list[dict]:
     return [dict(row) for row in rows]
 
 
+def size_counts(status: str = "success") -> list[dict]:
+    conn = connect()
+    counts = {size: 0 for size in TSHIRTS}
+    extra = ""
+    params: list = []
+    if status in STATUSES:
+        extra = " WHERE status = ?"
+        params.append(status)
+    rows = conn.execute(
+        f"SELECT UPPER(tshirt) AS size, COUNT(*) AS qty FROM registrations{extra} GROUP BY UPPER(tshirt)",
+        params,
+    ).fetchall()
+    conn.close()
+    other = 0
+    for row in rows:
+        size = row["size"] or ""
+        if size in counts:
+            counts[size] = row["qty"]
+        else:
+            other += row["qty"]
+    result = [{"size": size, "qty": counts[size]} for size in TSHIRTS]
+    if other:
+        result.append({"size": "Other", "qty": other})
+    return result
+
+
+def list_for_export(status: str = "success") -> list[dict]:
+    where = ["1=1"]
+    params: list = []
+    if status in STATUSES:
+        where.append("status = ?")
+        params.append(status)
+    conn = connect()
+    rows = conn.execute(
+        f"SELECT name, phone, tshirt FROM registrations WHERE {' AND '.join(where)} ORDER BY tshirt, name, id",
+        params,
+    ).fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+
 def stats() -> dict:
     conn = connect()
     today = datetime.now(IST).strftime("%Y-%m-%d")

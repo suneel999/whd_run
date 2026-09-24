@@ -22,6 +22,8 @@ from flask import (
     session,
     url_for,
 )
+from openpyxl import Workbook
+from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
 from PIL import Image
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.utils import secure_filename
@@ -198,12 +200,68 @@ def admin_logout():
 def admin_home():
     status = request.args.get("status") or ""
     q = request.args.get("q") or ""
+    sizes = db.size_counts("success")
     return render_template(
         "admin.html",
         regs=db.list_regs(status, q),
         stats=db.stats(),
+        sizes=sizes,
+        size_total=sum(item["qty"] for item in sizes),
         status=status,
         q=q,
+    )
+
+
+@app.get("/admin/export.xlsx")
+@login_required
+def admin_export():
+    rows = db.list_for_export("success")
+    sizes = db.size_counts("success")
+    book = Workbook()
+    people = book.active
+    people.title = "Runners"
+    headers = ["Name", "Mobile number", "T-shirt size"]
+    people.append(headers)
+    header_font = Font(bold=True, color="FFFFFF")
+    header_fill = PatternFill("solid", fgColor="012D3A")
+    thin = Border(
+        left=Side(style="thin", color="E5E7EB"),
+        right=Side(style="thin", color="E5E7EB"),
+        top=Side(style="thin", color="E5E7EB"),
+        bottom=Side(style="thin", color="E5E7EB"),
+    )
+    for cell in people[1]:
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.alignment = Alignment(horizontal="left")
+    for row in rows:
+        people.append([row["name"], row["phone"], row["tshirt"]])
+    for col, width in (("A", 32), ("B", 18), ("C", 14)):
+        people.column_dimensions[col].width = width
+    for row in people.iter_rows(min_row=1, max_row=people.max_row, max_col=3):
+        for cell in row:
+            cell.border = thin
+
+    order = book.create_sheet("Size totals")
+    order.append(["T-shirt size", "Quantity"])
+    for cell in order[1]:
+        cell.font = header_font
+        cell.fill = header_fill
+    for item in sizes:
+        order.append([item["size"], item["qty"]])
+    order.append(["Total", sum(item["qty"] for item in sizes)])
+    for col, width in (("A", 16), ("B", 12)):
+        order.column_dimensions[col].width = width
+
+    buf = io.BytesIO()
+    book.save(buf)
+    buf.seek(0)
+    stamp = db.now().replace(":", "").replace(" ", "-")
+    return send_file(
+        buf,
+        as_attachment=True,
+        download_name=f"pulse-run-tshirts-{stamp}.xlsx",
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
 
 
