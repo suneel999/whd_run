@@ -182,12 +182,15 @@ def admin_home():
     status = request.args.get("status") or ""
     q = request.args.get("q") or ""
     sizes = db.size_counts("success")
+    paid = db.list_paid()
     return render_template(
         "admin.html",
         regs=db.list_regs(status, q),
         stats=db.stats(),
         sizes=sizes,
         size_total=sum(item["qty"] for item in sizes),
+        paid=paid,
+        refund_total=len(paid) * 250,
         status=status,
         q=q,
     )
@@ -242,6 +245,48 @@ def admin_export():
         buf,
         as_attachment=True,
         download_name=f"pulse-run-tshirts-{stamp}.xlsx",
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+
+
+@app.get("/admin/refunds.xlsx")
+@login_required
+def admin_refunds():
+    rows = db.list_paid()
+    book = Workbook()
+    sheet = book.active
+    sheet.title = "Refunds"
+    headers = ["Name", "Mobile number", "Email", "T-shirt size", "Registered at", "Amount (INR)"]
+    sheet.append(headers)
+    header_font = Font(bold=True, color="FFFFFF")
+    header_fill = PatternFill("solid", fgColor="012D3A")
+    thin = Border(
+        left=Side(style="thin", color="E5E7EB"),
+        right=Side(style="thin", color="E5E7EB"),
+        top=Side(style="thin", color="E5E7EB"),
+        bottom=Side(style="thin", color="E5E7EB"),
+    )
+    for cell in sheet[1]:
+        cell.font = header_font
+        cell.fill = header_fill
+    for row in rows:
+        sheet.append(
+            [row["name"], row["phone"], row.get("email") or "", row["tshirt"], row["created_at"], 250]
+        )
+    sheet.append(["Total people", len(rows), "", "", "", len(rows) * 250])
+    for col, width in (("A", 32), ("B", 18), ("C", 32), ("D", 14), ("E", 20), ("F", 14)):
+        sheet.column_dimensions[col].width = width
+    for row in sheet.iter_rows(min_row=1, max_row=sheet.max_row, max_col=6):
+        for cell in row:
+            cell.border = thin
+    buf = io.BytesIO()
+    book.save(buf)
+    buf.seek(0)
+    stamp = db.now().replace(":", "").replace(" ", "-")
+    return send_file(
+        buf,
+        as_attachment=True,
+        download_name=f"pulse-run-refunds-{stamp}.xlsx",
         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
 

@@ -196,6 +196,21 @@ def size_counts(status: str = "success") -> list[dict]:
     return result
 
 
+def list_paid() -> list[dict]:
+    """Confirmed runners who uploaded a payment screenshot (pending → success)."""
+    conn = connect()
+    rows = conn.execute(
+        """
+        SELECT id, name, email, phone, phone_norm, tshirt, screenshot, created_at, updated_at
+        FROM registrations
+        WHERE status = 'success' AND TRIM(COALESCE(screenshot, '')) != ''
+        ORDER BY id
+        """
+    ).fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+
 def list_for_export(status: str = "success") -> list[dict]:
     where = ["1=1"]
     params: list = []

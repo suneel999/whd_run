@@ -8,6 +8,41 @@
 </div>
 <div class="card">
   <div class="order-head">
+    <h2>Refunds — paid registrations</h2>
+    <a class="btn" href="{{ url_for('admin_refunds') }}">Download refund Excel</a>
+  </div>
+  <p class="muted">These people registered first, paid ₹250, uploaded a screenshot, and were marked Success. Refund ₹250 each. Free later registrations are not in this list.</p>
+  <p><strong>{{ paid|length }}</strong> people · <strong>₹{{ refund_total }}</strong> total</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Registered</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Email</th>
+        <th>Size</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if not paid %}
+      <tr><td colspan="6" class="muted">No paid / pending-to-success records found.</td></tr>
+      {% endif %}
+      {% for reg in paid %}
+      <tr>
+        <td>{{ format_when(reg.created_at) }}</td>
+        <td><a href="{{ url_for('admin_detail', reg_id=reg.id) }}"><strong>{{ reg.name }}</strong></a></td>
+        <td><a href="tel:{{ reg.phone_norm }}">{{ reg.phone }}</a></td>
+        <td>{% if reg.email %}{{ reg.email }}{% else %}<span class="muted">—</span>{% endif %}</td>
+        <td>{{ reg.tshirt }}</td>
+        <td>₹250</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="card">
+  <div class="order-head">
     <h2>T-shirt order</h2>
     <a class="btn" href="{{ url_for('admin_export') }}">Download Excel</a>
   </div>
